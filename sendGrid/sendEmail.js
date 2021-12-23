@@ -11,7 +11,7 @@ const sendEmail = async (mail, token) => {
     html: `<a href="localhost:3001/api/users/verify/${token}>Для подтверждения регистрации перейдите по ссылке</a>`,
   };
   try {
-    sgMail.send(email);
+    await sgMail.send(email);
     console.log("Email send success");
     return true;
   } catch (error) {

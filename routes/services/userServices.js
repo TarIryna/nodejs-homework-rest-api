@@ -16,8 +16,7 @@ const registration = async (email, password) => {
     throw new Conflict(`User with email ${email} is already exist`);
   }
   const verifyToken = uuidv4(email);
-  console.log(verifyToken);
-  sendEmail(email, verifyToken);
+  await sendEmail(email, verifyToken);
   const user = new User({
     email,
     password,
@@ -115,10 +114,7 @@ const userSendEmailAgain = async (email) => {
   if (!user) {
     throw new NotFound("User not found");
   }
-  if (user.verify) {
-    throw new BadRequest("Verification has already been passed");
-  }
-  if (!user.verifyToken) {
+  if (user.verify || !user.verifyToken) {
     throw new BadRequest("Verification has already been passed");
   }
   await sendEmail(email, user.verifyToken);
